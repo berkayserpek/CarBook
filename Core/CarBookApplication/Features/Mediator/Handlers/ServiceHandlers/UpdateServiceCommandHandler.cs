@@ -1,0 +1,34 @@
+﻿using CarBookApplication.Features.Mediator.Commands.ServiceCommands;
+using CarBookApplication.Interfaces;
+using Domain.Entities;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CarBookApplication.Features.Mediator.Handlers.ServiceHandlers
+{
+    public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand>
+    {
+        private readonly IRepository<Service> _repository;
+
+        public UpdateServiceCommandHandler(IRepository<Service> repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task Handle(UpdateServiceCommand request, CancellationToken cancellationToken)
+        {
+            var value = await _repository.GetByIdAsync(request.ID);
+            if(value != null)
+            {
+                value.Description = request.Description;
+                value.IconURL = request.IconURL;
+                value.Title = request.Title;
+                await _repository.UpdateAsync(value);
+            }
+        }
+    }
+}
