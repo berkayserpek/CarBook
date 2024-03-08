@@ -16,9 +16,10 @@ namespace CarBook.API.Controllers
         private readonly UpdateCarCommandHandler _updateCarCommandHandler;
         private readonly RemoveCarCommandHandler _removeCarCommandHandler;
         private readonly GetCarWithBrandQueryHandler _getCarWithBrandQueryHandler;
+        private readonly GetLastFiveCarWithBrandQueryHandler _getLastFiveCarWithBrandQueryHandler;
 
 
-        public CarsController(CreateCarCommandHandler createCarCommandHandler, GetCarByIdQueryHandler getCarByIdQueryHandler, GetCarQueryHandler getCarQueryHandler, UpdateCarCommandHandler updateCarCommandHandler, RemoveCarCommandHandler removeCarCommandHandler, GetCarWithBrandQueryHandler getCarWithBrandQueryHandler)
+        public CarsController(CreateCarCommandHandler createCarCommandHandler, GetCarByIdQueryHandler getCarByIdQueryHandler, GetCarQueryHandler getCarQueryHandler, UpdateCarCommandHandler updateCarCommandHandler, RemoveCarCommandHandler removeCarCommandHandler, GetCarWithBrandQueryHandler getCarWithBrandQueryHandler, GetLastFiveCarWithBrandQueryHandler getLastFiveCarWithBrandQueryHandler)
         {
             _createCarCommandHandler = createCarCommandHandler;
             _getCarByIdQueryHandler = getCarByIdQueryHandler;
@@ -26,6 +27,7 @@ namespace CarBook.API.Controllers
             _updateCarCommandHandler = updateCarCommandHandler;
             _removeCarCommandHandler = removeCarCommandHandler;
             _getCarWithBrandQueryHandler = getCarWithBrandQueryHandler;
+            _getLastFiveCarWithBrandQueryHandler = getLastFiveCarWithBrandQueryHandler;
         }
         [HttpGet]
         public async Task<IActionResult> CarList()
@@ -61,6 +63,12 @@ namespace CarBook.API.Controllers
         public IActionResult GetCarWithBrand()
         {
             var values = _getCarWithBrandQueryHandler.Handle();
+            return Ok(values);
+        }
+        [HttpGet("GetLastFiveCarWithBrand")]
+        public IActionResult GetLastFiveCarWithBrand()
+        {
+            var values = _getLastFiveCarWithBrandQueryHandler.Handle();
             return Ok(values);
         }
     }
